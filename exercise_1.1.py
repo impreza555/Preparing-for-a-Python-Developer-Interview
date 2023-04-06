@@ -10,12 +10,13 @@ def multiplication_table(a: int, b: int) -> None:
 	:param b: int - Верхняя граница диапазона вторых множителей от 1 до b, включая b
 	:return: None
 	"""
-	try:
-		for i in range(1, a + 1):
-			print(format_to_sting([i * j for j in range(1, b + 1)]))
-	except TypeError as e:
-		print(e)
+	for i in range(1, a + 1):
+		print(format_to_sting([i * j for j in range(1, b + 1)]))
 
 
 if __name__ == "__main__":
-	multiplication_table(9, 9)
+	try:
+		A, B = map(int, input("Введите через пробел первый и второй множители: ").split())
+		multiplication_table(A, B)
+	except ValueError as e:
+		print(e)
