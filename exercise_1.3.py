@@ -1,7 +1,7 @@
 import time
 
 
-def randomizer(seed: int = time.time_ns()) -> float:
+def randomizer(seed: int = time.time_ns()) -> object:
 	"""
 	Функция генерирует случайные числа в диапазоне [0; 1].
 	В основе работы лежит Линейный конгруэнтный метод.
@@ -46,5 +46,6 @@ if __name__ == "__main__":
 	first = 0
 	last = 20
 	gen = randomizer()
+	print(type(gen))
 	print(random_list(first, last, gen))
 	print(random_dict(first, last, gen))
