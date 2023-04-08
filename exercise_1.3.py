@@ -1,7 +1,8 @@
 import time
+from typing import Iterator
 
 
-def randomizer(seed: int = time.time_ns()) -> object:
+def randomizer(seed: int = time.time_ns()) -> Iterator[float]:
 	"""
 	Функция генерирует случайные числа в диапазоне [0; 1].
 	В основе работы лежит Линейный конгруэнтный метод.
@@ -18,7 +19,7 @@ def randomizer(seed: int = time.time_ns()) -> object:
 		yield rand_float
 
 
-def random_list(start: int, end: int, generator: object) -> list:
+def random_list(start: int, end: int, generator: Iterator[float]) -> list:
 	"""
 	Функция создаёт список положительных целых случайных чисел
 	в диапазоне (start; end), включительно.
@@ -30,7 +31,7 @@ def random_list(start: int, end: int, generator: object) -> list:
 	return [int((start + (end - start)) * next(generator)) for i in range(end - start + 1)]
 
 
-def random_dict(start: int, end: int, generator: object) -> dict:
+def random_dict(start: int, end: int, generator: Iterator[float]) -> dict:
 	"""
 	Функция создаёт словарь положительных целых случайных чисел
 	в диапазоне (start; end), включительно, по шаблону {“elem_<номер_элемента>”: elem}.
@@ -46,6 +47,5 @@ if __name__ == "__main__":
 	first = 0
 	last = 20
 	gen = randomizer()
-	print(type(gen))
 	print(random_list(first, last, gen))
 	print(random_dict(first, last, gen))
