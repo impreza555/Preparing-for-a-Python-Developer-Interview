@@ -22,7 +22,7 @@ def bank_deposit(deposit_amount: float, period: int) -> float | None:
 		print('Неподходящая сумма вклада')
 		return
 	if period in (6, 12, 24):
-		return deposit_amount + deposit_amount * selected_deposit[period] * period / 12
+		return deposit_amount + deposit_amount * selected_deposit[period] / 100 * period / 12
 	else:
 		print('Неподходящий срок вклада')
 		return
