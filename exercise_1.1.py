@@ -19,4 +19,4 @@ if __name__ == "__main__":
 		A, B = map(int, input("Введите через пробел первый и второй множители: ").split())
 		multiplication_table(A, B)
 	except ValueError as e:
-		print(e) 
+		print(e)
