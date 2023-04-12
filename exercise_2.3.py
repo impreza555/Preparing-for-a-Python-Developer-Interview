@@ -55,5 +55,6 @@ class ItemDiscountReport(ItemDiscount):
 
 if __name__ == '__main__':
     parent = ItemDiscount('ноутбук "Lenovo"', 65000.800)
+    print(f'parent: {parent.name}, {parent.price}')
     child = ItemDiscountReport(parent.name, parent.price)
-    print(child.get_parent_data())
+    print(f'child: {child.get_parent_data()}')
