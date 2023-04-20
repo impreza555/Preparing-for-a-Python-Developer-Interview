@@ -23,7 +23,7 @@ def file_find(file_name: str) -> tuple:
                 if name == file_name:
                     f_path = os.path.join(address, name)
                     temp = '.'.join(name.split('.')[0:-1])
-                    name_without_ext = name if name else temp
+                    name_without_ext = temp if temp else name
                     return f_path, name_without_ext
 
 
