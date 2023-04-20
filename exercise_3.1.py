@@ -7,8 +7,8 @@ import os
 # и второй момент - по всем дискам ищет очень долго.
 
 # генератор, итерируется по буквам дисков
-# drives = (partition.device for partition in psutil.disk_partitions())
-drives = ['C:\\']  # Ограничимся одним диском.)
+# drives = (partition.mountpoint for partition in psutil.disk_partitions())
+drives = ['C:\\']  # Ограничимся одним диском. Здесь надо указать точку(и) монтирования. Линукса нет, проверить не могу.
 
 
 def file_find(file_name: str) -> tuple:
