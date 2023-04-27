@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="highlight">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Дата поступления</th>
+            <th>Цена</th>
+            <th>Единицы измерения</th>
+            <th>Поставщик</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td>{{ object.name }}</td>
+                <td>{{ object.date }}</td>
+                <td>{{ object.price }}</td>
+                <td>{{ object.measure_unit }}</td>
+                <td>{{ object.supplier }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add' %}" class="waves-effect waves-light btn-small">Добавить продукт</a>
+{% endblock %}

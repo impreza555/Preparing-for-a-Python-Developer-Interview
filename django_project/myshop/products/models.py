@@ -1,13 +1,14 @@
 from django.db import models
 
+MEASURE_UNIT_CHOICES = [
+    ('шт.', 'штук'),
+    ('кг.', 'килограмм'),
+    ('лит.', 'литров'),
+]
+
 
 class Product(models.Model):
     """Продукты"""
-    MEASURE_UNIT_CHOICES = [
-        ('шт.', 'штук'),
-        ('кг.', 'килограмм'),
-        ('лит.', 'литров'),
-    ]
     
     name = models.CharField(verbose_name='название', max_length=128)
     date = models.DateField(verbose_name='дата поступления')
