@@ -6,13 +6,10 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
-                console.log("Форма загружается");
                 $('.modal').modal();
             },
             success: function (data) {
-                console.log(data);
                 $("#modal1 .modal-content").html(data.html_form);
-                console.log("Форма загружена");
             },
 
         });
@@ -39,5 +36,4 @@ $(function () {
 
     $(".modal-trigger").click(loadForm);
     $("#modal1").on("submit", ".js-good-create-form", saveForm);
-
 });
