@@ -1,0 +1,18 @@
+<div id="modal1" class="modal modal-fixed-footer">
+    <form action="{% url 'add' %}" method="POST" class="js-good-create-form" enctype="multipart/form-data">
+        <div class="modal-content blue lighten-4">
+            <h4>Добавить продукт</h4>
+            {% csrf_token %}
+            {% load widget_tweaks %}
+            {{ form.as_div }}
+        </div>
+        <div class="modal-footer blue lighten-1">
+            <button class="modal-close waves-effect waves-teal btn-flat" type="button" name="action">
+                <span>Отмена</span>
+            </button>
+            <button class="modal-close waves-effect waves-teal btn-flat" type="submit" name="action">
+                <span>Добавить</span>
+            </button>
+        </div>
+    </form>
+</div>

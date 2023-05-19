@@ -1,17 +1,5 @@
-(function ($) {
-    $(function () {
-
-        $('.sidenav').sidenav();
-
-    }); // end of document ready
-})
-
 $(document).ready(function () {
     $('select').formSelect();
+    $('.datepicker').datepicker({format: 'dd.mm.yyyy', container: 'body'});
+    $('.sidenav').sidenav();
 });
-
-$(document).ready(function () {
-    $('.datepicker').datepicker({format: 'dd.mm.yyyy'});
-});
-
-(jQuery); // end of jQuery name space
