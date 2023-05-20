@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% include 'inc/table.html' %}
+    <button data-target="modal1" data-url="{% url 'add' %}" class="btn modal-trigger">Добавить продукт</button>
+    {% include "modal.html" %}
+{% endblock %}
