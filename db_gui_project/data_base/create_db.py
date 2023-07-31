@@ -10,7 +10,9 @@ def create_db(path_db: str) -> None:
     connection = sqlite3.connect(path_db)
     cursor = connection.cursor()
     cursor.executescript(
-        """CREATE TABLE IF NOT EXISTS categories
+        """
+        PRAGMA foreign_keys = ON;
+        CREATE TABLE IF NOT EXISTS categories
         (category_name VARCHAR(100) NOT NULL PRIMARY KEY,
         category_description TEXT NOT NULL);
 
@@ -26,14 +28,14 @@ def create_db(path_db: str) -> None:
         good_name VARCHAR(100) NOT NULL,
         good_unit VARCHAR(100) NOT NULL,
         good_cat VARCHAR(100) NOT NULL,
-        FOREIGN KEY (good_unit) REFERENCES units (unit),
-        FOREIGN KEY (good_cat) REFERENCES categories (category_name));
+        FOREIGN KEY (good_unit) REFERENCES units (unit) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (good_cat) REFERENCES categories (category_name) ON UPDATE CASCADE ON DELETE CASCADE);
         
         CREATE TABLE IF NOT EXISTS employees
         (employee_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         employee_fio VARCHAR(255) NOT NULL,
         employee_position TEXT NOT NULL,
-        FOREIGN KEY (employee_position) REFERENCES positions (position));
+        FOREIGN KEY (employee_position) REFERENCES positions (position) ON UPDATE CASCADE ON DELETE CASCADE);
         
         CREATE TABLE IF NOT EXISTS vendors
         (vendor_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +43,8 @@ def create_db(path_db: str) -> None:
         vendor_ownerchipform VARCHAR(100) NOT NULL,
         vendor_address  VARCHAR(255) NOT NULL,
         vendor_phone VARCHAR(16) NOT NULL,
-        vendor_email VARCHAR(255) NOT NULL);"""
+        vendor_email VARCHAR(255) NOT NULL);
+        """
     )
     connection.commit()
     connection.close()
