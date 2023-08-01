@@ -11,7 +11,6 @@ def create_db(path_db: str) -> None:
     cursor = connection.cursor()
     cursor.executescript(
         """
-        PRAGMA foreign_keys = ON;
         CREATE TABLE IF NOT EXISTS categories
         (category_name VARCHAR(100) NOT NULL PRIMARY KEY,
         category_description TEXT NOT NULL);
@@ -44,6 +43,7 @@ def create_db(path_db: str) -> None:
         vendor_address  VARCHAR(255) NOT NULL,
         vendor_phone VARCHAR(16) NOT NULL,
         vendor_email VARCHAR(255) NOT NULL);
+        PRAGMA foreign_keys = ON;
         """
     )
     connection.commit()

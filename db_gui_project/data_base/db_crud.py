@@ -96,6 +96,21 @@ def insert(con: sqlite3.Connection, table_name: str, columns: list, data: list) 
     con.commit()
 
 
+def delete(con: sqlite3.Connection, table_name: str, column_name: str, value: str) -> None:
+    """
+    Функция принимает объект соединения и имя таблицы, имя столбца и значение для удаления
+    :param con: - Объект соединения.
+    :param table_name: Str - имя таблицы
+    :param column_name: Str - имя столбца
+    :param value: Str - значение для удаления
+    :return: None
+    """
+    query = f'DELETE FROM {table_name} WHERE {column_name} = ?'
+    cursor = con.cursor()
+    cursor.execute(query, (value,))
+    con.commit()
+
+
 if __name__ == '__main__':
     path_db = 'goods_db.sqlite3'
     connection = connect_db(path_db)

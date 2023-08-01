@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+
 from data_base.db_crud import *
 
 path_db = ''
@@ -59,7 +60,7 @@ def make_win1() -> sg.Window:
         "Работа с базой данных",
         layout,
         default_element_size=(12, 1),
-        auto_size_text=False,
+        auto_size_text=True,
         auto_size_buttons=True,
         size=(600, 400),
         finalize=True
@@ -77,9 +78,11 @@ def make_win2(add_layout) -> sg.Window:
         "Добавить",
         add_layout,
         default_element_size=(12, 1),
-        auto_size_text=False,
+        auto_size_text=True,
         auto_size_buttons=True,
-        finalize=True
+        element_justification='right',
+        finalize=True,
+        modal=True,
     )
     return window
 
@@ -87,6 +90,7 @@ def make_win2(add_layout) -> sg.Window:
 current_table = ''  # Текущая таблица
 tables_data = {}  # Словарь данных таблиц
 table_list = []  # Список таблиц
+selected_row = None
 
 
 def table_data_maker(con: sqlite3.Connection, tab_list: list) -> None:
@@ -109,10 +113,11 @@ def main() -> None:
     Функция запускает программу
     :return: None
     """
-    global current_table, tables_data, table_list, path_db
+    global current_table, tables_data, table_list, path_db, selected_row
     window1, window2 = make_win1(), None
     while True:
         window, event, values = sg.read_all_windows()
+        # print(event, values)
         if event == sg.WIN_CLOSED or event == 'Exit':
             window.close()
             if window == window2:
@@ -143,10 +148,12 @@ def main() -> None:
                         values=tables_data[table]['data'],
                         expand_x=True,
                         expand_y=True,
+                        justification='right',
                         key=f'-{table}-',
                         visible=False,
                         auto_size_columns=True,
                         vertical_scroll_only=False,
+                        enable_events=True,
                     ))
                 ])
             window.extend_layout(window['-TABLE-'], tab_layout)
@@ -161,6 +168,7 @@ def main() -> None:
                     window['-TABLE-'].update(f'Таблица: {table}')
                 else:
                     window[f'-{table}-'].update(visible=False)
+                    window['-DELL-'].update(disabled=True)
         elif event == '-ADD-' and not window2:
             conn = connect_db(path_db)
             relation_tab_data = table_relations(conn, current_table)
@@ -178,7 +186,7 @@ def main() -> None:
                             ]
                             add_layout.append([
                                 sg.Text(f'{col_name}'),
-                                sg.Combo(values=combo_values, readonly=True, key=f'-{col_name}-', size=(20, 1)),
+                                sg.Combo(values=combo_values, readonly=True, key=f'-{col_name}-', size=(18, 1)),
                             ])
                 else:
                     add_layout.append([
@@ -204,6 +212,28 @@ def main() -> None:
             elif window == window1:
                 break
             window1[f'-{current_table}-'].update(values=tables_data[current_table]['data'])
+        elif event == f'-{current_table}-':
+            window['-DELL-'].update(disabled=False)
+            for row in values[event]:
+                selected_row = row
+        elif event == '-DELL-':
+            col_pk = ''
+            for col_name in tables_data[current_table]['headings'].keys():
+                if tables_data[current_table]['headings'][col_name][0]:
+                    col_pk = col_name
+            del_value = tables_data[current_table]['data'][selected_row][
+                list(tables_data[current_table]['headings'].keys()).index(col_pk)
+            ]
+            conn = connect_db(path_db)
+            try:
+                delete(conn, current_table, col_pk, del_value)
+                table_data_maker(conn, table_list)
+            except sqlite3.Error as err:
+                sg.popup('Ошибка', f'{err}')
+            finally:
+                conn.close()
+            window1[f'-{current_table}-'].update(values=tables_data[current_table]['data'])
+            window1['-DELL-'].update(disabled=True)
     window.close()
 
 
